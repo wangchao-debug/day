@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .beautiful{
+            border: 10px deeppink solid;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <!--  插值表达式，可进行简单计算  -->
+    <h1>{{message}}</h1>
+    <hr>
+    <!--  v-text用来获取data中定义的数据，并且将数据以为文本的形式渲染  -->
+    <span v-text="message">王超真帅</span>
+    <hr>
+    <!--  用来获取data数据中的html标签，并且将a标签作为链接显示  -->
+    <span v-html="msg"></span>
+    <hr>
+    <!--  事件绑定  -->
+    <h3>年龄：{{age}}</h3>
+    <input type="button" @click="del_age" value="变年轻">
+    <input type="button" @click="add_age" value="变成熟">
+    <hr>
+    <!--  参数的传递  -->
+    <h3>数字：{{number}}</h3>
+    <input type="button" @click="change(100,'王超',event)" value="变">
+    <input type="button" @click="get_event"value="获取event">
+    <hr>
+    <!--  v-show用来控制页面中的【某个标签是否显示】  -->
+    <h3 v-show="true">{{message}}</h3>
+    <hr>
+    <h3 v-show="isShow">王超牛逼</h3>
+    <hr>
+    <input type="button" value="点击控制是否显示" @click="changeShow">
+    <hr>
+    <h3>{{count}}</h3>
+    <!--  用表达式控制是否显示  -->
+    <span v-show="count>=30">王超cw</span><br>
+    <input type="button" value="加" @click="add_count">
+    <input type="button" value="减" @click="del_count">
+    <hr>
+    <!--  v-if用来控制【页面元素】的条件，条件满足时才有操作，否则会有v-else,必须跟在v-if后边，否则无法识别  -->
+    <h3 v-if="true">山西</h3>
+    <h3 v-else>来玩</h3>
+    <h3 v-else-if>欢迎你</h3>
+    <hr>
+    <!--  v-bind用来绑定【标签的属性】从而可以通过vue的实例来动态的修改标签的属性  -->
+    <img v-bind:src="src" :alt="alt" :class="{beautiful: showCss}">
+    <input type="button" value="换个风格" @click="change_picture">
+    <input type="button" value="改变样式" @click="change_css">
+    <hr>
+    <!--  v-for用来进行循环遍历  -->
+    <h3>姓名：{{user.name}} 年龄：{{user.age}} 密码：{{user.pwd}}</h3>
+    <hr>
+    <!--  遍历对象  -->
+    <span v-for="(value,key,index) in user">{{index+1}}-{{key}}-{{value}}<br></span>
+    <hr>
+    <!--  遍历书序  -->
+    <ul v-for="(city,index) in arr">
+        <li>{{index+1}}:{{city}}</li>
+    </ul>
+    <hr>
+    <!--  遍历数组中的对象，在使用v-for进行遍历时，一定要加上key，用来提供给vue内部重用和排序  -->
+    <ul v-for="(value,index) in users" :key="index">
+        <li>{{index+1}}-{{value.name}}-{{value.age}}-{{value.pwd}}</li>
+    </ul>
+    <hr>
+    <!--  v-model用来绑定标签元素值与vue实例中data的数据保持一致，从而可以实现数据的双向绑定  -->
+    <input type="text" @click="changevalue" value="改变information">
+    <input type="text" v-model="information">
+    <p>{{information}}</p>
+</div>
+
+<script src="js/vue.min.js"></script>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            message:"王超牛逼",
+            msg:"<a href=\"\">王超真帅</a>",
+            age:18,
+            number:75,
+            isShow: false,
+            count: 35,
+            src:"性感图片.jpg",
+            alt:"美女图片",
+            showCss:false,
+            user:{name:"王超",age:21,pwd:"123456"},
+            arr:["北京","天津","上海"],
+            users:[{name:"王超",age:21,pwd:"123456"},
+                {name:"武崇刚",age:21,pwd:"123456"},
+                {name:"靳子昂",age:21,pwd:"123456"}],
+            information:" "
+
+        },
+        methods: {
+            del_age: function(){
+                this.age--;
+            },
+            //简化写法：
+            add_age(){
+                this.age++;
+            },
+            change(num,name,event){
+                this.number = num;
+                console.log(name);
+                console.log(event);
+            },
+            get_event(){
+                console.log(event);
+            },
+            changeShow(){
+                this.isShow=!this.isShow
+            },
+            add_count(){
+                this.count++
+            },
+            del_count(){
+                this.count--
+            },
+            change_picture(){
+                this.src="美女图片.jpg"
+            },
+            change_css(){
+                this.showCss = !this.showCss
+            },
+            changevalue(){
+                this.information = "王超牛逼"
+            }
+        },
+    })
+</script>
+
+</body>
+</html>
