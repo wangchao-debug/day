@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>.red {
+        color: red;
+    }
+
+    .green {
+        color: green;
+    }
+    </style>
+</head>
+<body>
+<div id="app">
+    <com css="red" user="王超"></com>
+    <com css="green" user="武崇刚"></com>
+</div>
+<script src="../js/vue.min.js"></script>
+<script>
+    let com ={
+        //可以在组件内接收由组件标签传递过来的参数，使组件拥有动态的属性
+        //props可以理解为一个数组，里边是可以接受的参数名
+        //也可以把props理解为是一个只读的data属性
+        props:["css","user"],
+        template:`
+        <div>
+        <div :class="css">这还是我的组件</div>
+        </div>
+        `,
+        created:function () {
+            console.log(this.user)
+        }
+    }
+    new Vue({
+        el:"#app",
+        data:{
+
+        },
+        components:{
+            com:com,
+        }
+    })
+</script>
+</body>
+</html>

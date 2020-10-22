@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+武崇刚的爸爸:{{username}}
+<!--    接收子组件中传递过来的自定义事件，并绑定父组件的方法-->
+    <com @btn="clickMe"></com>
+</div>
+<script src="../js/vue.min.js"></script>
+<script>
+    let com = {
+        template:`
+        <div>
+        <button @click="clickBtn">按钮</button>
+</div>
+        `,
+        methods:{
+            //在子组件出发的函数内部出发一个自定义事件，且这个事件里包含着要传递的参数
+            clickBtn(){
+                //向父组件触发一个自定义事件，且这个事件包含的参数有自定义的事件名（要传递给子标签作为事件名），要传递的数据
+                this.$emit("btn","王超")
+            }
+        }
+    };
+    new Vue({
+        el:"#app",
+        data:{
+            username:"点击按钮告诉你"
+        },
+        methods:{
+            clickMe(username){
+                this.username=username;
+            }
+        },
+        components:{
+            com:com,
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+<!--    组件注册后的名字可直接作为标签-->
+    <com></com>
+    <first></first>
+</div>
+<script src="../js/vue.min.js"></script>
+<script>
+    //组件就是一个普通的js对象
+    let com ={
+        template:`
+        <div>我的第一次</div>
+        `
+    };
+    //全局组件的注册:Vue.component("组件注册后的名字","组件对象")
+    Vue.component("com",com);
+    new Vue({
+        el:"#app",
+        data:{
+        },
+    })
+
+    let first={
+        template: `
+        <div>这是另一个组件 <br>
+        <span @click="change">这是组件的span,{{username}}</span>
+        </div>
+        `,
+        //组件中data是一个函数，但是不能写成箭头函数
+        //除了data的定义与vue实例中的data不同，二者在使用方面没有区别
+        //组件中的data是相互隔离的，两者互不影响
+        //组件中data是对应的值的函数
+        data:function(){
+            return{
+                username:"王超",
+            }
+        },
+        methods:{
+            change() {
+                alert()
+            }
+        },
+    };
+
+    Vue.component("first",first);
+    new Vue({
+        el:"#app",
+        data:{},
+    })
+</script>
+</body>
+</html>

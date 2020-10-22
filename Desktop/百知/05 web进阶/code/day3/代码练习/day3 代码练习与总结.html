@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <!--  一个变量的值依赖于多个变量，且依赖的任意一个变量发生改变，该变量都会变化  -->
+    <h3>计算属性</h3>
+    <p @click="del_num">{{num}}</p>
+    <p>十位：{{parseInt(num/10)}}</p>
+    <p>个位：{{num%10}}</p>
+    <input type="number" v-model="shi" max="9" min="0">
+    <input type="number" v-model="ge" max="9" min="0">
+    结果：<b>{{shi*10+ +ge}}</b>
+    <!--  声明的方法属性在页面中被渲染  -->
+    结果：<b>{{result}}</b>
+    <hr>
+    <!--  当多个变量依赖于一个属性，则可以使用watch来监听这个属性的变化  -->
+    <h3>监听事件</h3>
+    <p @click="del_num1">{{num1}}</p>
+    <p>十位：{{shiwei}}</p>
+    <p>个位：{{gewei}}</p>
+    <hr>
+    <!--  vue的生命周期  -->
+
+</div>
+<script src="../js/vue.min.js"></script>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            num:50,
+            shi:"",
+            ge:"",
+            shiwei:"",
+            gewei:"",
+            num1:38,
+        //    在data中不能定义与自定义的方法属性重名的变量
+        },
+        methods:{
+            del_num (){
+                this.num--
+            },
+            del_num1 (){
+                this.num1-=3
+            },
+        },
+
+        //computed用来声明方法属性
+        //声明的方法属性不能在data中重新定义
+        //方法属性必须在页面中渲染才能生效，才会对内部的变量进行监听
+        computed:{
+            result() {
+                return this.shi*10+ +this.ge
+            }
+        },
+
+        //监听事件监听的是data中的已存在变量的变化
+        //监听的值发生改变就会触发监听事件
+        //监听事件不需要返回值
+        watch:{
+            num1() {
+                this.shiwei = parseInt(this.num1/10);
+                this.gewei = this.num1%10;
+            }
+        }
+    });
+    //正常函数
+    function add(a,b){
+        console.log(a+b)
+    }
+    //匿名函数
+    let app=function(a,b,c){
+        console.log(a+b*c)
+    };
+    //箭头函数其实是就是对匿名函数的简写
+    let app2 = (a,b,c) => console.log(a+b*c);
+    let app3 = function(a,b){
+        console.log(a+b)
+    };
+    let app4 = (a,b) =>{
+        console.log(a+b)
+    }
+    <!--  在回调函数中使用箭头函数不会改变原有的this指向  -->
+    let user = {
+        username:"王超",
+        app: function(){
+            console.log(this.username)
+        }
+    }
+    user.app()
+    //在回调函数中this的指向会改变，不会指向当前student实例
+    let student = {
+        username: "武崇刚",
+        app: function(){
+            setTimeout(function(){
+                console.log(this.username)
+            })
+        }
+    }
+    student.app();
+    //在回调函数中使用箭头函数，不会改变this指向
+    let pig = {
+        username:"武崇刚1号",
+        app:function(){
+            setTimeout(()=>{
+                console.log(this.username);
+            })
+        }
+    }
+    pig.app()
+</script>
+</body>
+</html>
