@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <router-link to="/first">组件1</router-link>
+    <router-link to="/second">组件2</router-link>
+
+    <router-view></router-view>
+</div>
+<script src="js/vue.min.js"></script>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<script>
+    let first={
+        template:`
+        <div>
+        这是组件1 <hr>
+            <router-link to="/second?id=1&name=王超">访问组件2，以query拼接传参</router-link><br>
+            <router-link to="/second/2/武崇刚">访问组件2，以动态路由传参</router-link>
+            <hr>
+            通过按钮点击来跳转页面
+            <button @click="turn">按钮</button>
+</div>
+        `,
+        methods:{
+            turn(){
+                this.$router.push({path:"/second/666"})
+            }
+        },
+    };
+    let second={
+        template:`
+        <div>
+        这是组件2 <hr>这是query拼接所传的参数---接收到组件1的参数为：id={{$route.query.id}},姓名：{{$route.query.name}}
+        <br>这是动态路由传递的参数---接收到组件1的参数为：id={{$route.params.id}},姓名:{{$route.params.name}}
+        <hr>
+        这是js跳转后传递的参数 数字：{{$route.params.number}}
+        <hr>
+        <button @click="goback">返回上一页</button>
+</div>
+        `,
+        methods:{
+            goback() {
+                this.$router.go(-1);
+            }
+        }
+    };
+    let myRouter = new VueRouter({
+        routes:[
+            {path:"/first",component:first},
+            {path:"/second",component:second},
+            {path:"/second/:number",component:second},
+            {path:"/second/:id/:name",component:second},
+            {path:"/",redirect:"/first"},
+
+        ]
+    });
+    new Vue({
+        el:"#app",
+        data:{},
+        router:myRouter
+    })
+</script>
+</body>
+</html>

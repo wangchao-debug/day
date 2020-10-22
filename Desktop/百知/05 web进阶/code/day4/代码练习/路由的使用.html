@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <h3>这是主页的页头</h3>
+    <hr>
+    <!--  定义访问不同组件的链接，通过to="路由地址"来指定当前标签要访问的组件  -->
+    <router-link to="/first">首页</router-link>
+    <router-link to="/second">用户页</router-link>
+    <!--  指定路由对应组件出现的位置  -->
+    <router-view></router-view>
+
+</div>
+<script src="js/vue.min.js"></script>
+<!--依赖于vue.js，所以应该先写vue-->
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<script>
+        let first = {
+        template:`
+            <div>这是首页</div>
+        `,
+    };
+
+    let second = {
+        template: `
+            <div>这是个人中心</div>
+        `,
+    };
+    //为每个组件准备对应路由，定义组件与路由之间的关系
+    //页面中输入路由来显示对应的组件
+    let myRouter = new VueRouter({
+        routes:[
+            //path指的是访问组件的地址，component指的是这个地址对应的组件
+            {path:"/first",component:first},
+            {path:"/second",component:second},
+            {path:"/",redirect:"/first"},
+        ]
+    });
+    new Vue({
+        el:"#app",
+        data:{},
+        //将定义好的路由注入到当前vue实例中
+        //router属性为自定义的路由，从而使得整个vue实例都拥有路由的功能
+        router:myRouter
+    })
+</script>
+</body>
+</html>
